@@ -39,11 +39,12 @@ backend:
     ingress:
       enabled: true
       host: "jupyterhub-test.rdeid.unil.ch"
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        more_clear_headers "Content-Security-Policy";
-        add_header content-security-policy "frame-ancestors 'self' https://pt-frontend-test.rdeid.int.verymadrace.com" always;
-        add_header Access-Control-Allow-Origin "https://pt-frontend-test.rdeid.int.verymadrace.com";
+      annotations:
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/configuration-snippet: |
+            more_clear_headers "Content-Security-Policy";
+            add_header content-security-policy "frame-ancestors 'self' https://pt-frontend-test.rdeid.int.verymadrace.com" always;
+            add_header Access-Control-Allow-Origin "https://pt-frontend-test.rdeid.int.verymadrace.com";
 
   # ARX service subchart configuration
   arx:
