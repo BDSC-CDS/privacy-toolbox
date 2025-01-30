@@ -1,7 +1,11 @@
 To deploy the Privacy Toolbox use the helm chart at `ghcr.io/bdsc-cds/charts/privacy-toolbox-chart:0.0.1`
 
 ```bash
-helm upgrade --install --namespace "privacy-toolbox" --create-namespace oci://ghcr.io/bdsc-cds/charts/privacy-toolbox-chart --version 0.0.1 -f values.yaml privacy-toolbox
+helm upgrade --install privacy-toolbox oci://ghcr.io/bdsc-cds/charts/privacy-toolbox-chart \
+  --version 0.0.1 \
+  --namespace "privacy-toolbox" \
+  --create-namespace \
+  -f values.yaml
 ```
 
 with the following `values.yaml` to adapt as needed:
