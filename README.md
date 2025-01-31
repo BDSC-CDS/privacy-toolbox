@@ -22,13 +22,21 @@ backend:
     enabled: true
   ingress:
     enabled: true
-    host: "pt-backend-test.rdeid.unil.ch"
+    host: "pt-backend.rdeid.unil.ch"
     tls: false # Secret name should match: {{ .Chart.Name }}-tls
     className: public
+    # annotations: {}
   persistence:
     enabled: true
     storageClass: microk8s-hostpath
-  
+  # Override container config 
+  configOverride:
+    daemon:
+      public_url: "https://pt-backend.rdeid.unil.ch"
+    clients:
+      jupyterhub:
+        host: "https://jupyterhub.rdeid.unil.ch"
+
   # Jupyterhub subchart configuration
   jupyterhub:
     enabled: true
@@ -38,13 +46,13 @@ backend:
       enabled: true
     ingress:
       enabled: true
-      host: "jupyterhub-test.rdeid.unil.ch"
+      host: "jupyterhub.rdeid.unil.ch"
       annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         nginx.ingress.kubernetes.io/configuration-snippet: |
             more_clear_headers "Content-Security-Policy";
-            add_header content-security-policy "frame-ancestors 'self' https://pt-frontend-test.rdeid.int.verymadrace.com" always;
-            add_header Access-Control-Allow-Origin "https://pt-frontend-test.rdeid.int.verymadrace.com";
+            add_header content-security-policy "frame-ancestors 'self' https://pt-frontend.rdeid.unil.ch" always;
+            add_header Access-Control-Allow-Origin "https://pt-frontend.rdeid.unil.ch";
 
   # ARX service subchart configuration
   arx:
@@ -68,8 +76,9 @@ frontend:
     enabled: true
   ingress:
     enabled: true
-    host: "pt-frontend-test.rdeid.unil.ch"
+    host: "pt-frontend.rdeid.unil.ch"
     tls: false # Secret name should match: {{ .Chart.Name }}-tls
+    # annotations: {}
   env:
-    apiUrl: "https://pt-backend-test.rdeid.unil.ch" # Should match the backend ingress host
+    apiUrl: "https://pt-backend.rdeid.unil.ch" # Should match the backend ingress host
 ```
