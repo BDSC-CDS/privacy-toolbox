@@ -2,7 +2,7 @@ To deploy the Privacy Toolbox use the helm chart at `ghcr.io/bdsc-cds/charts/pri
 
 ```bash
 helm upgrade --install privacy-toolbox oci://ghcr.io/bdsc-cds/charts/privacy-toolbox-chart \
-  --version 0.0.1 \
+  --version v0.0.2 \
   --namespace "privacy-toolbox" \
   --create-namespace \
   -f values.yaml
@@ -18,6 +18,15 @@ backend:
   enabled: true
   image:
     repository: ghcr.io/bdsc-cds/pt-backend
+  # Sets the secrets for the pt-backend.
+  # If this is empty, values are automatically generated at the release installation.
+  # Otherwise, the specified value will be used in the secret pt-backend-secret.
+  # During Helm upgrades, changes on the secrets will be reflected in the release.
+  secrets: {}
+    # ptAdminPassword: example-password
+    # jwtSecret: # 60 chars
+    # adminToken: # 16 chars
+    # symmetricEncryptionKey: # 32 chars 
   service:
     enabled: true
   ingress:
@@ -47,19 +56,19 @@ backend:
     ingress:
       enabled: true
       host: "jupyterhub.rdeid.unil.ch"
+      className: public
       annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        nginx.ingress.kubernetes.io/configuration-snippet: |
-            more_clear_headers "Content-Security-Policy";
-            add_header content-security-policy "frame-ancestors 'self' https://pt-frontend.rdeid.unil.ch" always;
-            add_header Access-Control-Allow-Origin "https://pt-frontend.rdeid.unil.ch";
-
+      
   # ARX service subchart configuration
   arx:
     enabled: true
 
   # PostgreSQL subchart configuration (see https://artifacthub.io/packages/helm/bitnami/postgresql/15.5.38)
   postgresql:
+
+    secrets: {}
+      # postgresPassword: example-password # PostgreSQL won't use this value if the chart was already deployed.
     primary:
       persistence:
         enabled: true
@@ -77,6 +86,7 @@ frontend:
   ingress:
     enabled: true
     host: "pt-frontend.rdeid.unil.ch"
+    className: public
     tls: false # Secret name should match: {{ .Chart.Name }}-tls
     # annotations: {}
   env:
