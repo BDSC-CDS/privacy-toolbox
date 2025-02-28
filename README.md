@@ -1,8 +1,9 @@
 To deploy the Privacy Toolbox use the helm chart at `ghcr.io/bdsc-cds/charts/privacy-toolbox-chart:v0.1.3`.
 
 ```bash
+# Run the following if you want to add a custom logo file to the Privacy Toolbox.
 # if file exists ./privacy-toolbox-chart/files/logo.png base64 it and put in mktemp
-if [ -f "./privacy-toolbox-chart/files/logo.png" ]; then
+if [ -f "./logo.png" ]; then
   BASE_64_LOGO_PATH=$(mktemp)
   cat ./privacy-toolbox-chart/files/logo.png | base64 > $BASE_64_LOGO_PATH
 fi
@@ -12,7 +13,7 @@ helm upgrade --install privacy-toolbox oci://ghcr.io/bdsc-cds/charts/privacy-too
   --namespace "privacy-toolbox" \
   --create-namespace \
   -f values.yaml \
-  --set-file frontend.config.logopngb64=$BASE_64_LOGO_PATH
+  --set-file frontend.config.logopngb64=$BASE_64_LOGO_PATH # Remove this if no logo.png file is provided.
 ```
 
 with the following `values.yaml` to adapt as needed:
