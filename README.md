@@ -8,7 +8,7 @@ if [ -f "./privacy-toolbox-chart/files/logo.png" ]; then
 fi
 
 helm upgrade --install privacy-toolbox oci://ghcr.io/bdsc-cds/charts/privacy-toolbox-chart \
-  --version v0.1.1 \
+  --version v0.1.3 \
   --namespace "privacy-toolbox" \
   --create-namespace \
   -f values.yaml \
