@@ -54,5 +54,3 @@ helm upgrade --install privacy-toolbox $SCRIPT_DIR/helm/privacy-toolbox-chart \
   -f $VALUES_FILE \
   --set-file frontend.config.logopngb64=$BASE_64_LOGO_PATH \
   --set backend.arx.postgresql.secrets.postgresPassword= # <Redacted> To be set during first deployment.
-echo "done"
-echo "\n"
