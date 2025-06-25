@@ -1,24 +1,3 @@
-To deploy the Privacy Toolbox use the helm chart at `ghcr.io/bdsc-cds/charts/privacy-toolbox-chart:v0.1.5`.
-
-```bash
-# Run the following if you want to add a custom logo file to the Privacy Toolbox.
-# if file exists ./privacy-toolbox-chart/files/logo.png base64 it and put in mktemp
-if [ -f "./logo.png" ]; then
-  BASE_64_LOGO_PATH=$(mktemp)
-  cat ./logo.png | base64 > $BASE_64_LOGO_PATH
-fi
-
-helm upgrade --install privacy-toolbox oci://ghcr.io/bdsc-cds/charts/privacy-toolbox-chart \
-  --version v0.1.5 \
-  --namespace "privacy-toolbox" \
-  --create-namespace \
-  -f values.yaml \
-  --set-file frontend.config.logopngb64=$BASE_64_LOGO_PATH # Remove this if no logo.png file is provided.
-```
-
-with the following `values.yaml` to adapt as needed:
-
-```yaml
 ####################################
 # pt-backend-chart configuration
 ####################################
@@ -130,8 +109,11 @@ frontend:
   # Frontend configuration
   config:
     apiUrl: "https://api-demo.rdeid.unil.ch" # Backend API URL
+    # primaryColor: "#059032"
+    # secondaryColor: "#CBEAD5"
+    # headerBgColor: "#059032"
+    # footerBgColor: "#B0B0B0"
     primaryColor: "#002C5C"
     secondaryColor: "#C5D5DB"
     headerBgColor: "#002C5C"
     footerBgColor: "#002C5C"
-```
