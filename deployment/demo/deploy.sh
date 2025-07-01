@@ -2,7 +2,7 @@
 
 set -e
 
-APP_VERSION="v0.1.5"
+APP_VERSION="v0.1.6"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "######################################"
